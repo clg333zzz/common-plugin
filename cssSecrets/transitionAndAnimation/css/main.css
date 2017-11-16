@@ -1,0 +1,69 @@
+.div-ball {
+  position: relative;
+  width: 120px;
+  height: 480px;
+  background: rgb(148, 235, 250);
+  border-bottom: 10px solid rgb(163, 255, 163);
+}
+.ball {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  background-image: radial-gradient(circle at 30% 30%, #fff, rgb(169, 86, 53));
+  top: 0;
+  left: 50%;
+  margin-left: -40px;
+  animation: bounce 3s cubic-bezier(.1, .25, 1, .25);
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes bounce {
+  60%, 80%, to {
+    transform: translateY(400px);
+    animation-timing-function: ease;
+  }
+  70% {
+    transform: translateY(300px);
+  }
+  90% {
+    transform: translateY(360px);
+  }
+}
+
+/**********************************/
+
+.div-notice {
+  display: inline-block;
+  font-family: Microsoft Yahei;
+  margin-top: 40px;
+}
+.div-notice input {
+  display: block;
+  border: none;
+  border: 1px solid #ccc;
+  width: 260px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  font-size: 16px;
+}
+.callout {
+  position: relative;
+  display: block;
+  width: 256px;
+  background: rgb(255, 226, 196);
+  border: 1px solid #ccc;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+.div-notice input:not(:focus) + .callout {
+  transform: scale(0);
+}
+.callout {
+  transition: transform .5s;
+  transform-origin: 1.4em -.4em;
+}
