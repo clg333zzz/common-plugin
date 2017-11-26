@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>农历阳历互换</title>
+    <link rel="stylesheet" href="picker.css">
+    <style>
+        body {
+            font-family: Microsoft yahei;
+            width:1000px;
+            margin: 0 auto;
+        }
+
+        h1,
+        h2 {
+            font-weight: normal;
+        }
+
+        h1 {
+            padding: 10px;
+            background: #ffe0d3;
+            border-bottom: 2px solid rgb(255, 74, 74);
+        }
+
+        input {
+            -webkit-appearance: none;
+            border: none;
+            border: 1px solid #ddd;
+            height: 3rem;
+            line-height: 3rem;
+            font-size: 1.2rem;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        p {
+            margin: 0;
+        }
+        textarea {
+            border: none;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+        }
+
+        pre {
+            font-family: courier;
+            font-size: 12px;
+        }
+        .desc-title {
+            padding: 5px;
+            padding-left: 10px;
+            background: #eeffd3;
+            border-bottom: 2px solid rgb(140, 210, 29);
+        }
+        .plugin-desc {
+            background: #f5f5f5;
+            padding: 20px;
+            color: #666;
+        }
+        .desc-info {
+            border-collapse: collapse;
+            width: 1000px;
+            text-align: left;
+        }
+        .desc-info thead tr {
+            border-bottom: 2px solid #666;
+        }
+        .desc-info tbody tr {
+            border-bottom: 1px solid #999;
+        }
+        .desc-info tr th,
+        .desc-info tr td {
+            height: 24px;
+            line-height: 24px;
+            padding: 5px 8px;
+            
+            color: #666;
+        }
+        .desc-info tr th {
+            color: #333;
+            
+        }
+        .get-value-tip {
+            margin: 20px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>农历公历（阴历阳历）选择插件</h1>
+
+    <p class="plugin-desc">当前插件默认可选择阳历跟阴历，主要用于一些需要通过农历来选择日期的地方。但是也支持只选择阳历，通过配置项可以实现多种自由组合。
+    </p>
+
+    <h2 class="desc-title">示例</h2>
+    <div>
+        <h3>只选择阳历日期</h3>
+        <pre>
+var myPick01 = new CgPicker();
+myPick01.init({
+    trigger: "#input01",
+    type: "solar",
+    needTime: false,
+    fadeClose: true,
+});
+        </pre>
+        <input type="text" id="input01">
+    </div>
+    <div>
+        <h3>选择阳历，农历，时间</h3>
+<pre>
+var myPick02 = new CgPicker();
+myPick02.init({
+    trigger: "#input02",
+    type: "lunar",
+    needTime: true,
+    fadeClose: true,
+});
+</pre>
+        <input type="text" id="input02">
+    </div>
+    <div>
+        <h3>选择阳历，阴历，不选时间</h3>
+<pre>
+var myPick03 = new CgPicker();
+myPick03.init({
+    trigger: "#input03",
+    type: "lunar",
+    needTime: false,
+    fadeClose: true,
+});   
+</pre> 
+        <input type="text" id="input03">
+    </div>
+    <div id="div01" style="position:fixed;z-index:2;bottom:0;left:0;width:100%;background-color:#fff;color:#000;">
+    </div>
+
+    <div>
+        <h3 class="desc-title">Options-配置信息</h3>
+        <table class="desc-info">
+            <thead>
+                <tr>
+                    <th>参数</th>
+                    <th>说明</th>
+                    <th>类型</th>
+                    <th>可选值</th>
+                    <th>默认值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>trigger</td>
+                    <td>
+                        用于激活插件的input框对应的ID值，注意要带‘#’号,<br>
+                        例如： '#inputId'
+                    </td>
+                    <td>String</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>插件类型</td>
+                    <td>String</td>
+                    <td>
+                        <p>阴历（农历）：lunar</p>
+                        <p>阳历（公历）：solar</p>
+                    </td>
+                    <td>lunar</td>
+                </tr>
+                <tr>
+                    <td>needType</td>
+                    <td>是否可选择时间</td>
+                    <td>Boolean</td>
+                    <td>
+                        <p>可选时间：true</p>
+                        <p>不选时间：false</p>
+                    </td>
+                    <td>true</td>
+                </tr>
+                <tr>
+                    <td>fadeColse</td>
+                    <td>是否支持点击庶罩层关闭插件</td>
+                    <td>Boolean</td>
+                    <td>
+                        <p>可关闭：true</p>
+                        <p>不关闭：false</p>
+                    </td>
+                    <td>true</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h2 class="desc-title">获取结果</h2>
+        <p class="get-value-tip">根据自己的配置，在选择时间后会在对应的input元素中生成对应的值，通过脚本我们可获取当前选择的时间。</p>
+        <table class="desc-info">
+            <thead>
+                <tr>
+                    <th>属性</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>data-solar</td>
+                    <td>（公历）阳历日期</td>
+                </tr>
+                <tr>
+                    <td>data-lunar</td>
+                    <td>（农历）阴历日期</td>
+                </tr>
+                <tr>
+                    <td>data-solar</td>
+                    <td>当前时辰</td>
+                </tr>
+            </tbody>
+        </table>
+<pre>
+    // 我们以input02为例子，可以获取阳历，阴历，时辰
+
+    // 获取阴历日期
+    document.querySelector("#input02").dataset.lunar;
+    // 获取阳历日期
+    document.querySelector("#input02").dataset.soloar;
+    // 获取时辰
+    document.querySelector("#input02").dataset.time;
+</pre>
+    </div>
+
+    <div>
+        <h2 class="desc-title">阳历阴历单独转换接口</h2>
+        <table class="desc-info">
+            <thead>
+                <tr>
+                    <th>函数名</th>
+                    <th>说明</th>
+                    <th>参数类型</th>
+                    <th>参数示例</th>
+                    <th>返回值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CgPicker.toLunarDate</td>
+                    <td>将阳历转为阴历</td>
+                    <td>String</td>
+                    <td>'2017-8-9'</td>
+                </tr>
+                <tr>
+                    <td>CgPicker.toSolarDate</td>
+                    <td>将阴历转为阳历</td>
+                    <td>String</td>
+                    <td>
+                        <p>'2017-6-27'</p>
+                        <p>'2017-l6-27'（注意阴历闰月，在对应的月份前面加上字母'l'）</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+<pre>
+// 将阳历'2017-8-18'转换为阴历'2017年闰6月27日'
+CgPicker.toLunarDate('2017-8-9');
+<img src="images/solarToLunar_a.bmp" alt="">
+
+// 将阳历'2017-7-20'转换为阴历'2017年6月27日'
+CgPicker.toLunarDate('2017-7-20');
+<img src="images/solarToLunar_b.bmp" alt="">
+
+// 将农历'2017年6月27日'转换为阳历'2017-7-20'
+CgPicker.toSolarDate('2017-6-27');
+<img src="images/lunarToSolar_a.bmp" alt="">
+
+// 将农历'2017年闰6月27日'转换为阳历'2017-8-18'
+CgPicker.toSolarDate('2017-l6-27');
+<img src="images/lunarToSolar_b.bmp" alt="">
+</pre>
+    </div>
+
+
+
+    <script src="CgPicker.js"></script>
+    <script>
+        var myPick01 = new CgPicker();
+        myPick01.init({
+            trigger: "#input01",//触发元素
+            type: "solar",//类型 
+            needTime: false,
+            fadeClose: true,
+            defaultDataSolar: '2018-6-7'
+        });
+
+        var myPick02 = new CgPicker();
+        myPick02.init({
+            trigger: "#input02",
+            type: "lunar",
+            needTime: true,
+            fadeClose: true,
+            defaultDataSolar: '2017-10-19'
+        });
+
+        var myPick03 = new CgPicker();
+        myPick03.init({
+            trigger: "#input03",
+            type: "lunar",
+            needTime: false,
+            fadeClose: true,
+        });
+    </script>
+</body>
+
+</html>
